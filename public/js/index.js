@@ -105,6 +105,8 @@ const checkCards = (e) => {
   clickedCard.classList.add('flipped');
   const flippedCards = document.querySelectorAll('.flipped');
 
+  const correctCards = document.querySelectorAll('.toggle');
+
   if (flippedCards.length === 2) {
     if (flippedCards[0].dataset.name === flippedCards[1].dataset.name) {
       flippedCards.forEach((flippedCard) => {
@@ -119,21 +121,19 @@ const checkCards = (e) => {
       startingLives--;
       remainingLives.textContent = startingLives;
       if (startingLives === 0) {
-        console.log('You lost.. try again!');
-        restartGame();
+        restartGame('You lost.. try again!');
       }
     }
   }
-  //check if we won the game
-  const correctCards = document.querySelectorAll('.toggle');
-  if (correctCards.length === 16) {
-    console.log('You won! Good job!');
 
-    restartGame();
+  //check if we won the game
+
+  if (correctCards.length === 16) {
+    restartGame('You won! Good job!');
   }
 };
 
-const restartGame = () => {
+const restartGame = (text) => {
   const images = randomize();
   const cards = document.querySelectorAll('.card');
   const imgElement = document.querySelectorAll('img');
@@ -143,7 +143,6 @@ const restartGame = () => {
     cards[i].classList.remove('toggle');
     setTimeout(() => {
       cards[i].style.pointerEvents = 'all';
-
       imgElement[i].src = image.imgSrc;
       cards[i].dataset.name = image.name;
       section.style.pointerEvents = 'all';
@@ -152,6 +151,7 @@ const restartGame = () => {
 
   startingLives = 7;
   remainingLives.textContent = startingLives;
+  setTimeout(() => window.alert(text), 100);
 };
 
 generateCards();
